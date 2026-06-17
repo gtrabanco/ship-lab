@@ -53,4 +53,4 @@ record the reconciled decision; all 8 ACs satisfied and mapped to tests.
 
 ## Manual-verification checklist
 
-- [ ] 👤 Tab-delimited output opens cleanly in a spreadsheet app _(human visual check)_
+- [x] 👤 Tab-delimited output opens cleanly in a spreadsheet app _(human visual check)_
