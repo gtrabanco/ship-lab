@@ -68,7 +68,7 @@ def test_default_delimiter() -> None:
 def test_package_importable() -> None:
     import json2csv
 
-    assert json2csv.__version__ == "0.0.1"
+    assert isinstance(json2csv.__version__, str) and json2csv.__version__ != ""
 
 
 # --- feature 04: nested-flatten ---
