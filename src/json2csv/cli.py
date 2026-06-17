@@ -1,5 +1,4 @@
 import json
-import sys
 from typing import IO
 
 import click
@@ -25,15 +24,12 @@ def main(input_file: IO[str], output_file: IO[str], delimiter: str) -> None:
     try:
         records = json.load(input_file)
     except json.JSONDecodeError as exc:
-        click.echo(f"Error: invalid JSON — {exc}", err=True)
-        sys.exit(1)
+        raise click.ClickException(f"invalid JSON — {exc}") from exc
 
     if not isinstance(records, list):
-        click.echo("Error: expected a JSON array at the top level.", err=True)
-        sys.exit(1)
+        raise click.ClickException("expected a JSON array at the top level.")
 
     if records and not all(isinstance(r, dict) for r in records):
-        click.echo("Error: expected a JSON array of objects.", err=True)
-        sys.exit(1)
+        raise click.ClickException("expected a JSON array of objects.")
 
     convert(records, output_file, delimiter=delimiter)
