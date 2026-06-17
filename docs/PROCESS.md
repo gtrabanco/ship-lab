@@ -144,52 +144,49 @@ A review finding on feature 02 was deferred to **issue #4** rather than inlined.
 
 ## Current state
 
-**Done:** the project is founded and **features 01–03 are merged**, each through the full
-plan → execute → review → audit → merge loop. Two review-born fixes (#4, #7) were triaged
-and shipped the same way.
+**Done:** the project is founded and **features 01–05 and fixes #3/#4/#7/#11 are all merged**,
+each through the full plan → execute → review → audit → merge loop.
 
 | # | Feature | Status |
 |---|---|---|
 | 01 | skeleton (packaging, ruff, pytest, CI) | ✅ done |
 | 02 | basic JSON → CSV | ✅ done |
 | 03 | `--delimiter` flag | ✅ done |
-| 04 | nested-object flatten | ⏳ planned |
+| 04 | nested-object flatten | ✅ done (PR #12) |
+| 05 | human-test sample | ✅ done (PR #14) |
+| 06 | array-index expansion | ⏳ planned |
+| 07 | release / publish | ⏳ planned |
 
-The CLI is installable and functional: `json2csv input.json`, stdin/stdout streaming, a
-`-o/--output` flag, a `-d/--delimiter` flag with validation, and boolean/null normalization.
-The verification gate (`ruff check . && pytest`) is green — 20 tests across `test_cli.py` and
-`test_converter.py`.
+The CLI is fully functional: `json2csv input.json`, stdin/stdout streaming, `-o/--output`,
+`-d/--delimiter` with validation, boolean/null normalization, nested-object flattening to
+dot-notation columns, and list-cell JSON encoding. The `__version__` is now read from
+installed package metadata (`importlib.metadata`) so version bumps in `pyproject.toml`
+propagate automatically.
 
-**Open issues:**
+The verification gate (`ruff check . && pytest`) is green — **32 tests** across
+`test_cli.py` and `test_converter.py`.
 
-- **#3** — use `importlib.metadata.version()` instead of a hardcoded `__version__`.
-  Postponed by `triage-issue`; trigger is the first release (first `v*` tag / PyPI upload).
+**Open issues:** none — all previously open issues (#3, #4, #7, #11) are resolved and closed.
 
-**Untracked workflow artifacts:** `.agents/` (the vendored agentic-workflow skills that drive
-the run) and `skills-lock.json` (the lockfile pinning each skill to a content hash). Neither
-is committed; for a reproducible demo the usual call is to commit `skills-lock.json` while
-git-ignoring the vendored skills.
+**Workflow artifacts:** `.agents/` (vendored agentic-workflow skills) is committed to the
+repo. `skills-lock.json` is currently untracked (under triage — see open issue).
 
 ---
 
 ## What's next
 
-One feature remains on the roadmap:
+Two features are on the roadmap:
 
 ```sh
-/plan-feature 04                # nested-object flatten → dot-notation columns
-/execute-phase 04 <phase>       # implement, gate-verified, one commit per phase
-/review-change                  # classified findings
-/audit-pr                       # merge gate
-gh pr create --base main
+/plan-feature 06                # array-of-objects → indexed dot-notation columns
+/plan-feature 07                # tag v* release + PyPI publish
 ```
 
-Or run the rest unattended with the autopilot:
+Or run unattended with the autopilot:
 
 ```sh
 /loop /ship-roadmap --continue
 ```
 
-After feature 04 merges the initial version is complete; issue #3 becomes actionable at the
-first release. The full step-by-step is mirrored in the README's status table and the
-machine-local `docs/features/.ship-run.log`.
+The full step-by-step is mirrored in the README's status table and the machine-local
+`docs/features/.ship-run.log`.

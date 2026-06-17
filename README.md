@@ -40,17 +40,19 @@ exists. The verification gate — `ruff check . && pytest` — must be green bef
 
 ## Where this demo is right now
 
-The workflow has **founded** the project and shipped the first three features — each one
-planned to a SPEC, implemented, reviewed, gated and merged through its own PR. Two
-review-born fixes were triaged and merged the same way. One feature (nested-object flatten)
-remains on the roadmap.
+The workflow has **founded** the project and shipped five features and four fixes — each one
+planned to a SPEC, implemented, reviewed, gated and merged through its own PR. Two new
+features are on the roadmap for the next cycle.
 
 | #  | Feature                                   | Status                                       |
 |----|-------------------------------------------|----------------------------------------------|
 | 01 | skeleton (packaging, ruff, pytest, CI)    | 🟢 done                                       |
 | 02 | basic JSON → CSV                          | 🟢 done                                       |
 | 03 | `--delimiter` flag                        | 🟢 done                                       |
-| 04 | nested-object flatten                     | ⚪ planned                                     |
+| 04 | nested-object flatten                     | 🟢 done                                       |
+| 05 | human-test sample                         | 🟢 done                                       |
+| 06 | array-index expansion                     | ⚪ planned                                     |
+| 07 | release / publish                         | ⚪ planned                                     |
 
 The full step-by-step story — every commit mapped to the skill that produced it — is in
 **[docs/PROCESS.md](docs/PROCESS.md)**.
