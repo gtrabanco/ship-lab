@@ -12,15 +12,34 @@ is the "making of" companion to the [README](../README.md).
 
 ## Timeline at a glance
 
-| Stage | Commit | Branch | Skill / step | What it produced |
+| Stage | Commit(s) | Branch | Skill / step | What it produced |
 |---|---|---|---|---|
 | 0 · Init | `34429e5` | `main` | manual bootstrap | empty lab repo |
-| 1 · Founding | `76e85bd` | `docs/ship-founding` | `ship-roadmap` (founding) | CLAUDE.md, roadmap, ship decisions, workflow + fix docs, GitHub templates |
-| 2 · Merge founding | `a4c37cf` | `main` | PR-style merge | founding lands on `main` |
-| 3 · Plan feature 01 | `e4be43b` | `feat/01-skeleton` | `plan-feature` → `plan-feature-scaffold` | `docs/features/01-skeleton/SPEC.md`, roadmap row flipped to `in-progress` |
+| 1 · Founding | `76e85bd` → `a4c37cf` | `docs/ship-founding` | `ship-roadmap` (founding) | CLAUDE.md, roadmap, ship decisions, workflow + fix docs, GitHub templates |
+| 2 · Plan 01 | `e4be43b` | `feat/01-skeleton` | `plan-feature` | `01-skeleton/SPEC.md`, roadmap flip → `in-progress` |
+| 3 · Execute 01 | `01d33c9` | `feat/01-skeleton` | `execute-phase` | `pyproject.toml`, package scaffold, ruff/pytest config, GitHub Actions CI |
+| 4 · Review 01 | `9720676` | `feat/01-skeleton` | `review-change` | review report — 0 fix-now |
+| 5 · Merge 01 | `f205c62` (PR #2) | `main` | merge | feature 01 lands on `main` |
+| 6 · README reframe | `c69ddb6` → `0d6aa09` (PR #1) | `docs/readme-hook` | `docs` | README reframed as a workflow hook + this process log |
+| 7 · Plan 02 | `a0e08ce` | `feat/02-basic-json-to-csv` | `plan-feature` | `02/SPEC.md`, roadmap flip |
+| 8 · Execute 02 | `f705178`, `f96668a` | `feat/02-basic-json-to-csv` | `execute-phase` | `converter.py` + `cli.py`, utf-8 encoding fix |
+| 9 · Review 02 | `0ceac12`, `5987ed0` | `feat/02-basic-json-to-csv` | `review-change` | 1 fix folded (guard non-object rows, normalize bool/null) |
+| 10 · Merge 02 | `170b9f5` (PR #5), `0a65ef0` | `main` | merge + flip | feature 02 lands, roadmap flip → `done` |
+| 11 · Fix 01 · issue #4 | `13a4350`, `c1d4a84` → `097609e` (PR #6), `6e3f9dc` | `fix/01-click-exception` | `triage-issue` → `plan-fix` → `execute-phase --fix` | `click.ClickException` error handling |
+| 12 · Plan 03 | `ca0261b` | `feat/03-delimiter-flag` | `plan-feature` | `03/SPEC.md`, roadmap flip |
+| 13 · Execute 03 | `ddc0ece` | `feat/03-delimiter-flag` | `execute-phase` | `-d`/`--delimiter` flag wired to `convert()` |
+| 14 · Review 03 + fold | `b48dff9`, `4103b8d`, `3bffc6e` | `feat/03-delimiter-flag` | `review-change` | loop pass 0 fix-now; standalone pass caught invalid-delimiter traceback → guard folded in |
+| 15 · Merge 03 | `4a21c34` (PR #8) | `main` | merge | feature 03 lands |
+| 16 · Fix 07 · issue #7 | `c72830a` → `ebe9eb5` (PR #9) | `fix/7-delimiter-metavar` | `triage-issue` → `execute-phase --fix` | `--help` shows `CHAR` (metavar) |
+| 17 · Sync | `6b4b60d` | `main` | chore | roadmap flip 03 → `done`, fix index updated |
 
-Current `HEAD`: `feat/01-skeleton` @ `e4be43b` — one commit ahead of `main`, pushed,
-**no PR opened yet**.
+Current `HEAD` of `main`: `6b4b60d` — features 01–03 and fixes #4/#7 all merged.
+
+> **A note on "PR #1".** Two merge commits carry GitHub's `Merge pull request #1` label:
+> the founding (`a4c37cf`, `docs/ship-founding`) and the README reframe (`0d6aa09`,
+> `docs/readme-hook`). Only the latter is a real remote PR (`gh pr list` shows #1 =
+> readme-hook). The founding was a PR-style **local** merge — the history reads like a PR,
+> but you won't find that one on GitHub. The real remote PRs are #1, #2, #5, #6, #8, #9.
 
 ---
 
@@ -46,7 +65,7 @@ the run without re-asking. For this repo it produced:
   interview answers (product, features, stack, quality, workflow), the merge policy
   (`human` — autopilot opens PRs, a human merges), model routing, and a silent-decision log.
 - **`docs/workflow/README.md`** and **`docs/fix/README.md`** — the workflow quick-reference
-  and the (empty) fix index.
+  and the (then empty) fix index.
 - **`.github/`** — issue and pull-request templates.
 - **`.gitignore`** — Python ignores plus the machine-local `docs/features/.ship-run.log`.
 
@@ -62,89 +81,115 @@ The interview answers that shaped everything (recorded in `SHIP_DECISIONS.md`):
   no secrets, gate `ruff check . && pytest`.
 - **Workflow** — English docs, GitHub via `gh`, **human** merge, budget caps.
 
-## Stage 2 — Founding merged to `main` (`a4c37cf`)
+Merged to `main` at `a4c37cf`, which becomes the baseline every feature branches from.
 
-`Merge pull request #1 from gtrabanco/docs/ship-founding`. The founding branch lands on
-`main`, which becomes the baseline every feature branches from.
+## Stage 2–5 — Feature 01: skeleton (`feat/01-skeleton`, PR #2)
 
-> **Note on "PR #1".** The commit message uses GitHub's standard merge-PR format, but the
-> GitHub repository currently shows **no pull requests** (`gh pr list --state all` returns
-> empty). In this lab run the founding was merged with a PR-style **local** merge commit
-> rather than through a real PR on the remote. The history reads like a normal PR merge;
-> just don't expect to find the PR on GitHub.
+The first roadmap feature ran the full loop, one skill per stage:
 
-## Stage 3 — Plan feature 01 (`e4be43b`, branch `feat/01-skeleton`)
+- **Plan** (`e4be43b`) — [`plan-feature`](https://github.com/gtrabanco/agentic-workflow/blob/main/skills/plan-feature/SKILL.md)
+  wrote `docs/features/01-skeleton/SPEC.md` (installable package, green `ruff`, green
+  `pytest`, a GitHub Actions CI workflow, the stub modules) and flipped the roadmap row to
+  `in-progress`. Doc-first: the feature is fully specified before any code exists.
+- **Execute** (`01d33c9`) — `execute-phase` scaffolded the package: `pyproject.toml`, the
+  `src/json2csv/` modules, ruff + pytest configuration, and the `.github/workflows/` CI that
+  runs the gate on 3.11 / 3.12 / 3.13.
+- **Review** (`9720676`) — `review-change` produced a classified report: 0 fix-now.
+- **Merge** (`f205c62`, PR #2) — the skeleton lands on `main`, satisfying the depends-on
+  closure for every later feature.
 
-With the substrate in place,
-[`plan-feature`](https://github.com/gtrabanco/agentic-workflow/blob/main/skills/plan-feature/SKILL.md)
-(routing to its internal `plan-feature-scaffold` step) planned the first roadmap feature. On
-a fresh `feat/01-skeleton` branch it:
+## Stage 6 — README reframe (`c69ddb6`, branch `docs/readme-hook`, PR #1)
 
-- wrote **`docs/features/01-skeleton/SPEC.md`** — goal, acceptance criteria (installable
-  package, green `ruff`, green `pytest`, a GitHub Actions CI workflow, the stub modules),
-  out-of-scope, a tests-first dev-scenario list, and a deploy/rollback note;
-- flipped the roadmap row for 01 from `planned` to **`in-progress`**;
-- recorded the step in the machine-local `docs/features/.ship-run.log`
-  (`01-skeleton | PLAN | done`).
+A docs-only PR reframed the `README` from a plain project readme into a **hook for the
+agentic-workflow demo** and added the first version of this process log.
 
-This is the **doc-first** rule in action: the feature is fully specified before any code
-exists.
+## Stage 7–10 — Feature 02: basic JSON → CSV (`feat/02-basic-json-to-csv`, PR #5)
+
+The core conversion feature:
+
+- **Plan** (`a0e08ce`) — SPEC + roadmap flip.
+- **Execute** (`f705178`, `f96668a`) — `converter.py` (pure JSON-array → CSV-rows logic) and
+  `cli.py` (the Click I/O shell), then a follow-up specifying `utf-8` encoding on
+  `click.File`.
+- **Review** (`0ceac12`, `5987ed0`) — `review-change` found one fix-now issue and **folded it
+  into the branch**: guard against non-object array elements, and normalize `True`/`False`/
+  `None` to `true`/`false`/`""` in CSV output.
+- **Merge** (`170b9f5`, PR #5; flip `0a65ef0`) — feature 02 lands; roadmap flips to `done`.
+
+## Stage 11 — Fix 01: idiomatic errors (`fix/01-click-exception`, issue #4, PR #6)
+
+A review finding on feature 02 was deferred to **issue #4** rather than inlined. Later
+`triage-issue` judged its trigger met (before feature 03), so `plan-fix` →
+`execute-phase --fix` replaced ad-hoc `click.echo(err=True) + sys.exit(1)` with idiomatic
+`click.ClickException` (clean `Error:` to stderr, exit 1). Merged via PR #6.
+
+## Stage 12–15 — Feature 03: delimiter flag (`feat/03-delimiter-flag`, PR #8)
+
+- **Plan** (`ca0261b`) — SPEC + roadmap flip.
+- **Execute** (`ddc0ece`) — the `-d` / `--delimiter` option (default `,`) wired through to
+  `convert()`.
+- **Review + fold** (`b48dff9`, `4103b8d`, `3bffc6e`) — the in-loop review reported 0
+  fix-now, but a **standalone `review-change` second pass** live-probed invalid delimiters and
+  found they dumped a raw Python traceback. The branch merged `main` (to sit on PR #6's
+  `ClickException` baseline) and folded in a guard rejecting multi-char, empty, and
+  quote/newline delimiters with a clean error. Cosmetic `metavar` nit deferred to **issue #7**.
+- **Merge** (`4a21c34`, PR #8) — feature 03 lands.
+
+## Stage 16 — Fix 07: delimiter metavar (`fix/7-delimiter-metavar`, issue #7, PR #9)
+
+`triage-issue` → `execute-phase --fix` added `metavar="CHAR"` so `--help` shows
+`-d, --delimiter CHAR` instead of the generic `TEXT`. Merged via PR #9.
 
 ---
 
 ## Current state
 
-**Done:** project founded (conventions, roadmap, decisions, docs, templates) and feature 01
-planned (SPEC + roadmap flip).
+**Done:** the project is founded and **features 01–03 are merged**, each through the full
+plan → execute → review → audit → merge loop. Two review-born fixes (#4, #7) were triaged
+and shipped the same way.
 
-**Not yet built:** no implementation. `src/json2csv/` exists but is **empty** — no
-`__init__.py`, `converter.py`, or `cli.py`. There is no `pyproject.toml`, no `tests/`, and no
-`.github/workflows/` CI. The verification gate (`ruff check . && pytest`) would currently fail
-because there is nothing installable to lint or test.
+| # | Feature | Status |
+|---|---|---|
+| 01 | skeleton (packaging, ruff, pytest, CI) | ✅ done |
+| 02 | basic JSON → CSV | ✅ done |
+| 03 | `--delimiter` flag | ✅ done |
+| 04 | nested-object flatten | ⏳ planned |
 
-**Untracked workflow artifacts:**
+The CLI is installable and functional: `json2csv input.json`, stdin/stdout streaming, a
+`-o/--output` flag, a `-d/--delimiter` flag with validation, and boolean/null normalization.
+The verification gate (`ruff check . && pytest`) is green — 20 tests across `test_cli.py` and
+`test_converter.py`.
 
-- `.agents/skills/` — the 14 agentic-workflow skills installed locally (the engine that drives
-  the run).
-- `skills-lock.json` — a lockfile pinning each skill to `gtrabanco/agentic-workflow` with a
-  content hash, so the exact skill set can be restored and verified later.
+**Open issues:**
 
-Neither is committed yet. For a reproducible demo, the usual call is to commit
-`skills-lock.json` while git-ignoring the vendored `.agents/skills/` copies.
+- **#3** — use `importlib.metadata.version()` instead of a hardcoded `__version__`.
+  Postponed by `triage-issue`; trigger is the first release (first `v*` tag / PyPI upload).
+
+**Untracked workflow artifacts:** `.agents/` (the vendored agentic-workflow skills that drive
+the run) and `skills-lock.json` (the lockfile pinning each skill to a content hash). Neither
+is committed; for a reproducible demo the usual call is to commit `skills-lock.json` while
+git-ignoring the vendored skills.
 
 ---
 
 ## What's next
 
-The immediate next step is to **execute feature 01**:
+One feature remains on the roadmap:
 
 ```sh
-/execute-phase 01 P1     # packaging + ruff + pytest + stub modules + GitHub Actions CI
-```
-
-…then review, gate and open a PR:
-
-```sh
-/review-change
-/audit-pr
+/plan-feature 04                # nested-object flatten → dot-notation columns
+/execute-phase 04 <phase>       # implement, gate-verified, one commit per phase
+/review-change                  # classified findings
+/audit-pr                       # merge gate
 gh pr create --base main
 ```
 
-After 01 merges, the dependency chain continues 02 → 03 → 04 (see
-[`ROADMAP.md`](features/ROADMAP.md)). To run the rest unattended:
+Or run the rest unattended with the autopilot:
 
 ```sh
 /loop /ship-roadmap --continue
 ```
 
-### Loose ends worth a glance
-
-- **No CI yet.** Acceptance criterion 4 of feature 01 requires a GitHub Actions workflow;
-  `.github/workflows/` does not exist. It arrives when 01 is executed.
-- **`feat/01-skeleton` has no PR.** The branch is pushed and one commit ahead of `main`;
-  opening a PR (or continuing the autopilot) is the next action.
-- **Broken documentation-map link.** `CLAUDE.md` lists `docs/features/_TEMPLATE/SPEC.md` as
-  the SPEC template, but that file does not exist in the repo. Either vendor the template or
-  drop the row.
-- **Untracked artifacts.** Decide whether to commit `skills-lock.json` and git-ignore
-  `.agents/skills/` (see above).
+After feature 04 merges the initial version is complete; issue #3 becomes actionable at the
+first release. The full step-by-step is mirrored in the README's status table and the
+machine-local `docs/features/.ship-run.log`.
