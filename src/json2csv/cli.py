@@ -21,6 +21,11 @@ def main(input_file: IO[str], output_file: IO[str], delimiter: str) -> None:
     Reads a JSON array of objects from FILE (or stdin) and writes CSV to
     stdout (or --output).
     """
+    if len(delimiter) != 1:
+        raise click.ClickException("delimiter must be a single character.")
+    if delimiter in '"\r\n':
+        raise click.ClickException("delimiter cannot be a quote or newline character.")
+
     try:
         records = json.load(input_file)
     except json.JSONDecodeError as exc:

@@ -13,13 +13,34 @@ Skipped: design, a11y, SEO, brand — Console/CLI project, no UI surface.
 
 | Axis | Finding | Sev | Class | WHY | Route |
 |---|---|---|---|---|---|
-| api-ergonomics | `--delimiter` help shows `TEXT` not `CHAR` | low | postpone | Cosmetic; csv raises naturally on multi-char; out of scope per SPEC | issue #7, trigger: first user confusion or pre-1.0 polish |
+| api-ergonomics | `--delimiter` help shows `TEXT` not `CHAR` | low | postpone | Cosmetic; out of scope per SPEC | issue #7, trigger: first user confusion or pre-1.0 polish |
+| verify / bug | Invalid delimiter (multi-char, empty, quote/newline) dumped a Python traceback instead of a clean error | low→med | **fixed** | Contradicted the clean-error convention from issue #4; first-pass review flagged it for manual check but never executed it | folded into PR #8 (guard in `cli.py` + 3 tests) |
 
-**0 fix-now findings.**
+**0 open fix-now findings after the fold.**
+
+## Second pass — standalone review-change (2026-06-17, after PR #6 merged)
+
+Live edge-case probing of the delimiter flag surfaced the traceback finding
+above. The first-pass review (in the ship-roadmap loop) only listed it as a
+manual-verification item and never ran it. Probed values and pre-fix behaviour:
+
+- `-d "||"` (multi-char) → `TypeError` traceback
+- `-d ""` (empty) → `TypeError` traceback
+- `-d '"'` (quote char) → `ValueError` traceback
+- value containing the delimiter → correctly quoted (no issue)
+
+Fix folded into the branch:
+- `cli.py`: guard rejecting `len != 1` and the quote/`\r`/`\n` chars with a
+  `ClickException` — clean `Error:` message, exit 1, no traceback.
+- Tests: `test_delimiter_multichar_rejected`, `test_delimiter_empty_rejected`,
+  `test_delimiter_quote_rejected`.
+- Merged `main` into the branch first so the guard sits on PR #6's
+  `ClickException` baseline; verified the merged result passes the gate (20/20).
 
 ## SPEC drift
 
-None. All 7 ACs satisfied and mapped to tests.
+None after the fold. AC7 (invalid delimiter → clean error) added to the SPEC to
+record the reconciled decision; all 8 ACs satisfied and mapped to tests.
 
 ## Live execution
 
@@ -27,9 +48,9 @@ None. All 7 ACs satisfied and mapped to tests.
 - Semicolon-delimited: ✓ `a;b` / `1;2`
 - Default comma: ✓ unchanged
 - `--help` shows `--delimiter` with `[default: ,]`: ✓
-- Gate: 17/17 green
+- Invalid delimiters (`||`, ``, `"`): ✓ clean `Error:` message, exit 1
+- Gate: 20/20 green
 
 ## Manual-verification checklist
 
 - [ ] 👤 Tab-delimited output opens cleanly in a spreadsheet app _(human visual check)_
-- [ ] 👤 Multi-char delimiter (e.g. `--delimiter ",,"`) produces a clear error, not silent corruption _(human check)_

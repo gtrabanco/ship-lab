@@ -83,6 +83,27 @@ def test_delimiter_help() -> None:
     assert "--delimiter" in result.output
 
 
+def test_delimiter_multichar_rejected() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["-d", "||"], input='[{"a": "1"}]')
+    assert result.exit_code != 0
+    assert "single character" in result.output
+
+
+def test_delimiter_empty_rejected() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["-d", ""], input='[{"a": "1"}]')
+    assert result.exit_code != 0
+    assert "single character" in result.output
+
+
+def test_delimiter_quote_rejected() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["-d", '"'], input='[{"a": "1"}]')
+    assert result.exit_code != 0
+    assert "quote" in result.output.lower()
+
+
 def test_non_object_array() -> None:
     runner = CliRunner()
     result = runner.invoke(main, input="[1, 2, 3]")
