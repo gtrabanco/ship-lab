@@ -4,7 +4,7 @@ import csv
 from typing import IO
 
 
-def convert(records: list[dict], out: IO[str]) -> None:
+def convert(records: list[dict], out: IO[str], delimiter: str = ",") -> None:
     """Write *records* (list of flat dicts) as CSV to *out*.
 
     Header: union of all keys in insertion order of first occurrence.
@@ -24,7 +24,7 @@ def convert(records: list[dict], out: IO[str]) -> None:
                 seen.add(key)
 
     writer = csv.DictWriter(out, fieldnames=fieldnames, extrasaction="ignore",
-                            lineterminator="\n", restval="")
+                            lineterminator="\n", restval="", delimiter=delimiter)
     writer.writeheader()
     writer.writerows({k: _normalize(v) for k, v in row.items()} for row in records)
 

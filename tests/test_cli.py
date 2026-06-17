@@ -58,6 +58,52 @@ def test_invalid_json() -> None:
     assert "invalid JSON" in result.output
 
 
+def test_delimiter_tab_flag() -> None:
+    runner = CliRunner()
+    data = json.dumps([{"a": "1", "b": "2"}])
+    result = runner.invoke(main, ["-d", "\t"], input=data)
+    assert result.exit_code == 0
+    lines = result.output.splitlines()
+    assert lines[0] == "a\tb"
+    assert lines[1] == "1\t2"
+
+
+def test_delimiter_long_flag() -> None:
+    runner = CliRunner()
+    data = json.dumps([{"a": "1", "b": "2"}])
+    result = runner.invoke(main, ["--delimiter", ";"], input=data)
+    assert result.exit_code == 0
+    lines = result.output.splitlines()
+    assert lines[0] == "a;b"
+
+
+def test_delimiter_help() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["--help"])
+    assert "--delimiter" in result.output
+
+
+def test_delimiter_multichar_rejected() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["-d", "||"], input='[{"a": "1"}]')
+    assert result.exit_code != 0
+    assert "single character" in result.output
+
+
+def test_delimiter_empty_rejected() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["-d", ""], input='[{"a": "1"}]')
+    assert result.exit_code != 0
+    assert "single character" in result.output
+
+
+def test_delimiter_quote_rejected() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["-d", '"'], input='[{"a": "1"}]')
+    assert result.exit_code != 0
+    assert "quote" in result.output.lower()
+
+
 def test_non_object_array() -> None:
     runner = CliRunner()
     result = runner.invoke(main, input="[1, 2, 3]")
