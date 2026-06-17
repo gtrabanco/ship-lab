@@ -57,6 +57,31 @@ def test_invalid_json() -> None:
     assert result.exit_code != 0
 
 
+def test_delimiter_tab_flag() -> None:
+    runner = CliRunner()
+    data = json.dumps([{"a": "1", "b": "2"}])
+    result = runner.invoke(main, ["-d", "\t"], input=data)
+    assert result.exit_code == 0
+    lines = result.output.splitlines()
+    assert lines[0] == "a\tb"
+    assert lines[1] == "1\t2"
+
+
+def test_delimiter_long_flag() -> None:
+    runner = CliRunner()
+    data = json.dumps([{"a": "1", "b": "2"}])
+    result = runner.invoke(main, ["--delimiter", ";"], input=data)
+    assert result.exit_code == 0
+    lines = result.output.splitlines()
+    assert lines[0] == "a;b"
+
+
+def test_delimiter_help() -> None:
+    runner = CliRunner()
+    result = runner.invoke(main, ["--help"])
+    assert "--delimiter" in result.output
+
+
 def test_non_object_array() -> None:
     runner = CliRunner()
     result = runner.invoke(main, input="[1, 2, 3]")

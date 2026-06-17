@@ -14,7 +14,9 @@ from json2csv.converter import convert
                 metavar="[FILE]")
 @click.option("-o", "--output", "output_file", type=click.File("w", encoding="utf-8"),
               default="-", show_default=True, help="Output CSV file (default: stdout).")
-def main(input_file: IO[str], output_file: IO[str]) -> None:
+@click.option("-d", "--delimiter", default=",", show_default=True,
+              help="Field delimiter character.")
+def main(input_file: IO[str], output_file: IO[str], delimiter: str) -> None:
     """Convert JSON to CSV.
 
     Reads a JSON array of objects from FILE (or stdin) and writes CSV to
@@ -34,4 +36,4 @@ def main(input_file: IO[str], output_file: IO[str]) -> None:
         click.echo("Error: expected a JSON array of objects.", err=True)
         sys.exit(1)
 
-    convert(records, output_file)
+    convert(records, output_file, delimiter=delimiter)
