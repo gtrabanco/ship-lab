@@ -13,6 +13,11 @@
 | User-facing limitations disclosed | ✓ (list cells, fixed `.` separator — in SPEC Out of scope) |
 | New deps pinned | n/a (only stdlib additions) |
 
+## Human-verification (confirmed 2026-06-17)
+
+- [x] 👤 Flattened CSV (`address.city`-style headers) opens cleanly in a spreadsheet app — columns align correctly _(human visual check)_
+- [x] 👤 JSON-encoded list cell (e.g. `"[""python"", ""data""]"`) displays and re-imports acceptably _(human visual check)_
+
 ## Decisions not in SPEC
 
 - Added `if not fieldnames: return` guard so a record that flattens to an empty
