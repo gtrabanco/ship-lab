@@ -78,6 +78,10 @@ over the full roadmap), `/plan-feature`, `/execute-phase` (feature mode), and
 `/triage-issue` — ran before the context reset and are narrated in
 [docs/PROCESS.md](docs/PROCESS.md) instead.
 
+Here is `/ship-roadmap` in action (31 s) — opening [PR #19](https://github.com/gtrabanco/ship-lab/pull/19) from a single command:
+
+[![/ship-roadmap opening a PR](https://img.youtube.com/vi/2Ai0NkTvoeM/0.jpg)](https://www.youtube.com/watch?v=2Ai0NkTvoeM)
+
 ## Try the sample
 
 A ready-to-run sample lives in [`examples/`](examples/). It lets you verify the
