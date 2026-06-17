@@ -10,8 +10,9 @@ from json2csv.converter import convert
 
 @click.command()
 @click.version_option(__version__)
-@click.argument("input_file", type=click.File("r"), default="-", metavar="[FILE]")
-@click.option("-o", "--output", "output_file", type=click.File("w"),
+@click.argument("input_file", type=click.File("r", encoding="utf-8"), default="-",
+                metavar="[FILE]")
+@click.option("-o", "--output", "output_file", type=click.File("w", encoding="utf-8"),
               default="-", show_default=True, help="Output CSV file (default: stdout).")
 def main(input_file: IO[str], output_file: IO[str]) -> None:
     """Convert JSON to CSV.
