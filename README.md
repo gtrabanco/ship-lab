@@ -73,9 +73,9 @@ product, and acting on the audit's proposals. The skills on display:
 | `/audit-pr` | Merge-readiness gate — MERGE-READY verdict with evidence per gate |
 | `/product-audit` | Full product health sweep across correctness, tests, docs, roadmap |
 
-The earlier skills — `/plan-feature`, `/execute-phase` (feature mode), `/triage-issue`,
-and `/loop` — ran before the context reset and are narrated in
-[docs/PROCESS.md](docs/PROCESS.md) instead.
+The earlier skills — `/init-workspace` (project bootstrap), `/loop` (autopilot over all
+phases), `/plan-feature`, `/execute-phase` (feature mode), and `/triage-issue` — ran
+before the context reset and are narrated in [docs/PROCESS.md](docs/PROCESS.md) instead.
 
 ## Try the sample
 
