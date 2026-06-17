@@ -2,7 +2,7 @@
 
 | # | Slug | Issue | Status | Branch | PR |
 |---|---|---|---|---|---|
-| _none active_ | | | | | |
+| 11 | empty-nested-row | #11 | in-progress | fix/11-empty-nested-row | — |
 
 <!-- Add fix entries as: fix/NN-slug when fixes are planned; remove rows once merged.
      Shipped fixes are narrated in docs/PROCESS.md.
