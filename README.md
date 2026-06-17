@@ -57,6 +57,26 @@ features are on the roadmap for the next cycle.
 The full step-by-step story — every commit mapped to the skill that produced it — is in
 **[docs/PROCESS.md](docs/PROCESS.md)**.
 
+## See the skills in action
+
+**[docs/conversation-log.md](docs/conversation-log.md)** is a real session transcript —
+an AI agent applying the agentic-workflow skills against this very repo.
+
+It picks up mid-run (after a context reset between sessions) and shows the tail end of the
+build cycle: fixing a bug, running the full review-and-gate loop twice, auditing the whole
+product, and acting on the audit's proposals. The skills on display:
+
+| Skill | What you'll see |
+|---|---|
+| `/execute-phase --fix` | Implementing a fix from a SPEC: branch, code, gate, PR |
+| `/review-change` | Classified findings table — fix-now / postpone / intentional-tradeoff |
+| `/audit-pr` | Merge-readiness gate — MERGE-READY verdict with evidence per gate |
+| `/product-audit` | Full product health sweep across correctness, tests, docs, roadmap |
+
+The earlier skills — `/plan-feature`, `/execute-phase` (feature mode), `/triage-issue`,
+and `/loop` — ran before the context reset and are narrated in
+[docs/PROCESS.md](docs/PROCESS.md) instead.
+
 ## Try the sample
 
 A ready-to-run sample lives in [`examples/`](examples/). It lets you verify the
