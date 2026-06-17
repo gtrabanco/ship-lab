@@ -55,6 +55,7 @@ def test_invalid_json() -> None:
     runner = CliRunner()
     result = runner.invoke(main, input="not json at all")
     assert result.exit_code != 0
+    assert "invalid JSON" in result.output
 
 
 def test_non_object_array() -> None:
