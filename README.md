@@ -5,8 +5,9 @@
 This repository is a worked example: a real command-line tool — **json2csv** — being
 built end to end by AI agents running the agentic-workflow skills. Its git history *is*
 the workflow running: each commit was produced by a skill — founding the project, then
-planning the first feature, with implementation next. Read the repo top to bottom and you
-are reading the workflow's output.
+planning, implementing, reviewing and shipping one feature per PR. Three features and two
+fixes are merged; one feature remains. Read the repo top to bottom and you are reading the
+workflow's output.
 
 > agentic-workflow — *"a reusable set of agent skills that run a disciplined, doc-driven
 > workflow for building software with agents — from idea/issue to a reviewed, classified,
@@ -39,15 +40,16 @@ exists. The verification gate — `ruff check . && pytest` — must be green bef
 
 ## Where this demo is right now
 
-The workflow has **founded** the project and **planned** the first feature. Implementation
-is the next step — so you can watch the doc-first discipline in action: the SPEC and roadmap
-exist before a single line of `converter.py` is written.
+The workflow has **founded** the project and shipped the first three features — each one
+planned to a SPEC, implemented, reviewed, gated and merged through its own PR. Two
+review-born fixes were triaged and merged the same way. One feature (nested-object flatten)
+remains on the roadmap.
 
 | #  | Feature                                   | Status                                       |
 |----|-------------------------------------------|----------------------------------------------|
-| 01 | skeleton (packaging, ruff, pytest, CI)    | 🟡 in progress — SPEC written, execution next |
-| 02 | basic JSON → CSV                          | ⚪ planned                                     |
-| 03 | `--delimiter` flag                        | ⚪ planned                                     |
+| 01 | skeleton (packaging, ruff, pytest, CI)    | 🟢 done                                       |
+| 02 | basic JSON → CSV                          | 🟢 done                                       |
+| 03 | `--delimiter` flag                        | 🟢 done                                       |
 | 04 | nested-object flatten                     | ⚪ planned                                     |
 
 The full step-by-step story — every commit mapped to the skill that produced it — is in
