@@ -45,6 +45,7 @@ Scale: personal / small-team utility. Lifespan: medium-lived, maintained.
 | Fix index | `docs/fix/README.md` | Fix tracker |
 | Workflow tutorial | `docs/workflow/README.md` | End-to-end workflow guide |
 | Ship decisions | `docs/features/SHIP_DECISIONS.md` | Autopilot run policy |
+| Process log | `docs/PROCESS.md` | How the repo reached its current state (demo narrative) |
 
 ---
 
