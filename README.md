@@ -59,7 +59,7 @@ The full step-by-step story — every commit mapped to the skill that produced i
 
 ## See the skills in action
 
-**[docs/conversation-log.md](docs/conversation-log.md)** is a real session transcript —
+**[docs/conversation-log.md](docs/conversation-log.md)** ([es](docs/conversation-log.es.md)) is a real session transcript —
 an AI agent applying the agentic-workflow skills against this very repo.
 
 It picks up mid-run (after a context reset between sessions) and shows the tail end of the
