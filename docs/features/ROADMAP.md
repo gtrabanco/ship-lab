@@ -8,3 +8,4 @@
 | 02 | basic-json-to-csv | done | S | 01 | Read flat JSON objects from file/stdin, write CSV rows to file/stdout |
 | 03 | delimiter-flag | done | XS | 02 | Add `--delimiter` / `-d` flag (default `,`); pass through to the CSV writer |
 | 04 | nested-flatten | planned | S | 02 | Flatten nested JSON objects to dot-notation column names before writing CSV |
+| 05 | human-test-sample | planned | S | 04 | Sample JSON + run script to let humans verify tab-delimited, nested, and list-cell outputs |
