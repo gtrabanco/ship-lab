@@ -29,6 +29,13 @@ non-empty dict (e.g. `{"a": {}, "b": 1}` → `{"b": 1}`) is unaffected.
 3. A record mixing empty and populated keys (`{"a":{},"b":1}`) still emits its row.
 4. `ruff check . && pytest` exits 0.
 
+## Broader effect (intentional)
+
+The `if row` guard in the `writerows` generator filters any record that flattens to
+an empty dict, not only those with empty nested objects. This means top-level empty
+objects (`[{}, {"b": 1}]`) are also silently skipped — a natural extension of the
+same invariant. This behaviour is intentional and consistent.
+
 ## Out of scope
 
 Any other flattening behaviour; array index expansion; the fixed `.` separator.

@@ -151,6 +151,14 @@ def test_flatten_empty_nested_object() -> None:
     assert out.getvalue() == ""
 
 
+def test_top_level_empty_object_skipped() -> None:
+    records = [{}, {"b": 1}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines == ["b", "1"]
+
+
 def test_flatten_empty_nested_object_mixed() -> None:
     records = [{"a": {}}, {"b": 1}]
     out = io.StringIO()
