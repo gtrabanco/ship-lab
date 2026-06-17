@@ -43,7 +43,9 @@ def convert(records: list[dict], out: IO[str], delimiter: str = ",") -> None:
     writer = csv.DictWriter(out, fieldnames=fieldnames, extrasaction="ignore",
                             lineterminator="\n", restval="", delimiter=delimiter)
     writer.writeheader()
-    writer.writerows({k: _normalize(v) for k, v in row.items()} for row in flat_records)
+    writer.writerows(
+        {k: _normalize(v) for k, v in row.items()} for row in flat_records if row
+    )
 
 
 def _normalize(value: object) -> str | object:
