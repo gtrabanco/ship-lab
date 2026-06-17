@@ -55,6 +55,32 @@ remains on the roadmap.
 The full step-by-step story — every commit mapped to the skill that produced it — is in
 **[docs/PROCESS.md](docs/PROCESS.md)**.
 
+## Try the sample
+
+A ready-to-run sample lives in [`examples/`](examples/). It lets you verify the
+behaviours that automated tests cannot confirm — column alignment, tab-delimited
+rendering, and JSON list-cell display.
+
+**1. Install the package** (once):
+
+```sh
+pip install -e .
+```
+
+**2. Run the script:**
+
+```sh
+bash examples/run_sample.sh
+```
+
+This writes three files (git-ignored so every user gets their own copy):
+
+| File | What to verify |
+|---|---|
+| `examples/out_comma.csv` | 👤 `address.city` and `address.country` appear as **separate columns**; `tags` column contains a JSON-encoded string (e.g. `["python", "data"]`) — paste the cell value into `python -c "import json,sys; print(json.loads(sys.argv[1]))" '["python","data"]'` to confirm it round-trips |
+| `examples/out_tab.csv` | 👤 Open in a spreadsheet app — all columns must align cleanly with no merged or split cells |
+| `examples/out_stdin.csv` | Identical to `out_comma.csv` (stdin path regression) |
+
 ## Run the workflow yourself
 
 Install the skills into any agent that reads Markdown skills (Claude Code, Cursor, and 70+

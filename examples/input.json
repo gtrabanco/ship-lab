@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Nguyen",
+    "active": true,
+    "address": {"city": "Madrid", "country": "ES"},
+    "tags": ["python", "data"]
+  },
+  {
+    "id": 2,
+    "name": "Bob Chen",
+    "active": false,
+    "address": {"city": "Barcelona", "country": "ES"},
+    "tags": ["figma", "css", "ux"]
+  },
+  {
+    "id": 3,
+    "name": "Carol Smith",
+    "active": true,
+    "address": {"city": "Lisbon", "country": "PT"},
+    "tags": ["go", "infra"]
+  },
+  {
+    "id": 4,
+    "name": "David Park",
+    "active": true,
+    "address": {"city": "Berlin", "country": "DE"},
+    "tags": []
+  },
+  {
+    "id": 5,
+    "name": "Eva Rossi",
+    "active": null,
+    "address": {"city": "Rome", "country": "IT"},
+    "tags": ["ml", "python", "data"]
+  }
+]

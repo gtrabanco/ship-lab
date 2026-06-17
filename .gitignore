@@ -10,3 +10,6 @@ dist/
 
 # Ship-roadmap run log (machine-local — never commit)
 docs/features/.ship-run.log
+
+# Sample outputs (generated locally — never commit)
+examples/out_*.csv
