@@ -14,7 +14,7 @@ from json2csv.converter import convert
 @click.option("-o", "--output", "output_file", type=click.File("w", encoding="utf-8"),
               default="-", show_default=True, help="Output CSV file (default: stdout).")
 @click.option("-d", "--delimiter", default=",", show_default=True,
-              help="Field delimiter character.")
+              metavar="CHAR", help="Field delimiter character.")
 def main(input_file: IO[str], output_file: IO[str], delimiter: str) -> None:
     """Convert JSON to CSV.
 

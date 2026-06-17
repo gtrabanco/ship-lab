@@ -81,6 +81,7 @@ def test_delimiter_help() -> None:
     runner = CliRunner()
     result = runner.invoke(main, ["--help"])
     assert "--delimiter" in result.output
+    assert "CHAR" in result.output
 
 
 def test_delimiter_multichar_rejected() -> None:
