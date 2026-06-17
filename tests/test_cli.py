@@ -110,3 +110,16 @@ def test_non_object_array() -> None:
     result = runner.invoke(main, input="[1, 2, 3]")
     assert result.exit_code != 0
     assert "non-object" in result.output.lower() or "object" in result.output.lower()
+
+
+def test_cli_nested_end_to_end() -> None:
+    runner = CliRunner()
+    data = [{"user": {"name": "Ann", "age": 3}}]
+    with runner.isolated_filesystem():
+        with open("in.json", "w") as f:
+            json.dump(data, f)
+        result = runner.invoke(main, ["in.json"])
+    assert result.exit_code == 0
+    lines = result.output.splitlines()
+    assert lines[0] == "user.name,user.age"
+    assert lines[1] == "Ann,3"

@@ -69,3 +69,83 @@ def test_package_importable() -> None:
     import json2csv
 
     assert json2csv.__version__ == "0.0.1"
+
+
+# --- feature 04: nested-flatten ---
+
+
+def test_flatten_single_level() -> None:
+    records = [{"user": {"name": "Ann", "age": 3}}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "user.name,user.age"
+    assert lines[1] == "Ann,3"
+
+
+def test_flatten_deep() -> None:
+    records = [{"a": {"b": {"c": 1}}}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "a.b.c"
+    assert lines[1] == "1"
+
+
+def test_flatten_mixed_flat_and_nested() -> None:
+    records = [{"id": 1, "meta": {"tag": "x"}}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "id,meta.tag"
+    assert lines[1] == "1,x"
+
+
+def test_flatten_list_as_json_cell() -> None:
+    import csv as _csv
+
+    records = [{"tags": ["a", "b"]}]
+    out = io.StringIO()
+    convert(records, out)
+    out.seek(0)
+    reader = _csv.reader(out)
+    header = next(reader)
+    row = next(reader)
+    assert header == ["tags"]
+    assert row == ['["a", "b"]']
+
+
+def test_flatten_mismatched_shapes() -> None:
+    records = [{"user": {"name": "Ann"}}, {"user": {"name": "Bob", "age": 30}}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "user.name,user.age"
+    assert lines[1] == "Ann,"
+    assert lines[2] == "Bob,30"
+
+
+def test_flat_only_unchanged() -> None:
+    records = [{"name": "Alice", "age": "30"}, {"name": "Bob", "age": "25"}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "name,age"
+    assert lines[1] == "Alice,30"
+    assert lines[2] == "Bob,25"
+
+
+def test_flatten_leaf_normalization() -> None:
+    records = [{"meta": {"active": True, "deleted": False, "note": None}}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "meta.active,meta.deleted,meta.note"
+    assert lines[1] == "true,false,"
+
+
+def test_flatten_empty_nested_object() -> None:
+    records = [{"a": {}}]
+    out = io.StringIO()
+    convert(records, out)
+    assert out.getvalue() == ""
