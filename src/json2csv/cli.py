@@ -30,4 +30,8 @@ def main(input_file: IO[str], output_file: IO[str]) -> None:
         click.echo("Error: expected a JSON array at the top level.", err=True)
         sys.exit(1)
 
+    if records and not all(isinstance(r, dict) for r in records):
+        click.echo("Error: expected a JSON array of objects.", err=True)
+        sys.exit(1)
+
     convert(records, output_file)

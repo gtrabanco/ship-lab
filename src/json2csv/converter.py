@@ -26,4 +26,14 @@ def convert(records: list[dict], out: IO[str]) -> None:
     writer = csv.DictWriter(out, fieldnames=fieldnames, extrasaction="ignore",
                             lineterminator="\n", restval="")
     writer.writeheader()
-    writer.writerows(records)
+    writer.writerows({k: _normalize(v) for k, v in row.items()} for row in records)
+
+
+def _normalize(value: object) -> str | object:
+    if value is True:
+        return "true"
+    if value is False:
+        return "false"
+    if value is None:
+        return ""
+    return value

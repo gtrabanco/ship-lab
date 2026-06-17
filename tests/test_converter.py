@@ -31,6 +31,15 @@ def test_mismatched_keys() -> None:
     assert lines[2] == ",3,4"
 
 
+def test_boolean_normalization() -> None:
+    records = [{"flag": True, "off": False, "empty": None}]
+    out = io.StringIO()
+    convert(records, out)
+    lines = out.getvalue().splitlines()
+    assert lines[0] == "flag,off,empty"
+    assert lines[1] == "true,false,"
+
+
 def test_package_importable() -> None:
     import json2csv
 
